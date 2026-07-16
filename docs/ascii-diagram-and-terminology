@@ -1,0 +1,155 @@
+ASCII diagram:
+
+STOCK   WASTE                  FOUNDATIONS
++---+   +---+           +---+   +---+   +---+   +---+
+|###|   |   |           | ♥ |   | ♦ |   | ♣ |   | ♠ |
++---+   +---+           +---+   +---+   +---+   +---+
+
+TABLEAU (7 columns)
++---+   +---+   +---+   +---+   +---+   +---+   +---+
+|   |   |   |   |   |   |   |   |   |   |   |   |   |
++---+   +---+   +---+   +---+   +---+   +---+   +---+
+        +---+   +---+   +---+   +---+   +---+   +---+
+        |   |   |   |   |   |   |   |   |   |   |   |
+        +---+   +---+   +---+   +---+   +---+   +---+
+                +---+   +---+   +---+   +---+   +---+
+                |   |   |   |   |   |   |   |   |   |
+                +---+   +---+   +---+   +---+   +---+
+                        +---+   +---+   +---+   +---+
+                        |   |   |   |   |   |   |   |
+                        +---+   +---+   +---+   +---+
+                                +---+   +---+   +---+
+                                |   |   |   |   |   |
+                                +---+   +---+   +---+
+                                        +---+   +---+
+                                        |   |   |   |
+                                        +---+   +---+
+                                                +---+
+                                                |   |
+                                                +---+
+
+TERMINOLOGY:
+
+Ace — highest or lowest card depending on game. — As
+King — face card ranked below Ace. — Rey
+Queen — face card. — Reina
+Jack — face card. — Jota / Sota
+Rank — card value (A,2–10,J,Q,K). — Valor / Rango
+Suit — one of clubs ♣, diamonds ♦, hearts ♥, spades ♠. — Palo
+Deck — standard 52-card pack. — Baraja / Mazo
+Shuffle — randomize the deck. — Barajar
+Cut — split the deck (usually before dealing). — Cortar (la baraja)
+Deal — distribute cards to players or board. — Repartir
+
+
+
+Hole cards / Pocket cards — player’s private cards — Cartas ocultas
+Community cards — shared face-up cards on the table (flop/turn/river). — Cartas comunitarias
+Flop — first three community cards. — Flop (o las tres cartas)
+Turn — fourth community card. — Turn (cuarta carta)
+River — fifth community card. — River (quinta carta)
+Board — the current set of community cards. — Mesa / Tablero
+Hand — the set of cards used to make a poker combination. — Mano
+Hand ranking — ordering of poker hands (best → worst). — Jerarquía de manos
+Royal flush — A-K-Q-J-10 same suit. — Escalera real
+Straight flush — five consecutive of same suit. — Escalera de color
+Four of a kind (quads) — four same rank. — Poker / Cuatro iguales
+Full house (boat) — three of a kind + a pair. — Full / Full house
+Flush — five same suit, not consecutive. — Color
+Straight — five consecutive ranks. — Escalera
+Three of a kind (set/trips) — three same rank. — Trío / Tercia
+Two pair — two different pairs. — Doble pareja
+One pair — a single pair. — Pareja
+High card — no pair; highest card wins. — Carta alta
+Kicker — side card used to break ties. — Kicker / Carta de desempate
+Nuts — the best possible hand given the board. — La mejor mano posible / “nuts”
+Outs — cards that improve a hand. — Outs / Cartas que ayudan
+Pot — total chips/money bet this hand. — Pozo / Bote
+Stack — player’s chips. — Stack / Fichas
+Blind (small blind / big blind) — forced bets in games like Hold’em. — Ciega pequeña / ciega grande
+Dealer button — marker for dealer position. — Botón del dealer / botón
+Position — order relative to dealer (early/middle/late). — Posición (temprana/Media/tardía)
+Check — pass without betting if no bet to call. — Pasar / Check
+Bet — place chips into pot. — Apostar
+Call — match the current bet. — Igualar / Meter
+Raise — increase the bet. — Subir (la apuesta)
+Fold — give up the hand. — Retirarse / Foldear
+All-in — bet all your chips. — Ir all-in / Apostar todo
+Bluff — bet with a weak hand to make others fold. — Farol / Bluff
+Value bet — bet to extract value from worse hands. — Apuesta de valor
+Showdown — reveal hands after final betting to decide winner. — Showdown / Mostrar las cartas
+Muck — discard cards face-down (usually after folding). — Muck / Descartar
+Rake — house take from pot. — Comisión / Rake
+
+All-in – Betting all of one’s remaining chips in a hand.
+Ante – A small forced bet from every player before a hand begins (common in tournaments).
+Bad beat – Losing a hand despite having very strong cards, usually when an opponent catches a lucky draw.
+Bet – To put chips into the pot as a wager.
+Betting round – One of several intervals in a hand when players can bet, check, raise, or fold (preflop, flop, turn, river).
+Big blind – A forced bet posted by the player two seats left of the dealer button.
+Blank – A community card that seems unlikely to improve anyone’s hand.
+Bluff – To bet or raise with a weak hand, hoping opponents fold.
+Board – The set of community cards in games like Texas Hold’em or Omaha.
+Bring in – The forced first bet in stud poker (made by the player with the lowest upcard).
+Button – A disk indicating the dealer position (rotates clockwise after each hand).
+Buy-in – The minimum amount of money required to sit at a table or enter a tournament.
+Call – To match the current bet amount.
+Check – To pass the action without betting (only allowed if no bet has been made in that round).
+Check-raise – Checking initially, then raising after an opponent bets.
+Cold call – Calling both a bet and a raise (or multiple raises) in the same action.
+Community cards – Cards dealt face-up in the center of the table, shared by all players.
+Connectors – Two consecutive-ranking cards (e.g., 8♠ 9♠).
+Cripple – To hold a hand so strong it “breaks” the deck’s possibilities (e.g., holding both remaining aces in a deck).
+Cut / Cut the deck – To split the deck into two parts before dealing (usually after a shuffle).
+Deal – To distribute cards to players.
+Dealer – The person or button position responsible for distributing cards.
+Deck – The full set of 52 playing cards.
+Disconnect protection – In online poker, a feature that saves a player’s hand if their connection drops.
+Draw – Needing specific cards to complete a hand (e.g., flush draw, straight draw).
+Early position – Players who act first in a betting round (left of the blinds).
+Equity – A player’s mathematical chance of winning a hand at a given moment.
+Face card – King, Queen, or Jack.
+Fifth street – Another name for the river (final community card).
+Fish – A weak or inexperienced player.
+Flop – The first three community cards in Hold’em/Omaha; also the betting round after they appear.
+Flush – Five cards of the same suit.
+Fold – To quit the current hand (forfeit any chips already bet that round).
+Four of a kind – Four cards of the same rank (quads).
+Free card – Getting to see another street without having to call a bet (often by checking).
+Full house – Three of a kind plus a pair.
+Heads-up – Play between only two players.
+Hole cards – Private cards dealt face-down to each player.
+Kicker – The unpaired, highest side card in a hand (used to break ties).
+Late position – Players who act later in a betting round (closer to the button), giving them an advantage.
+Limp – To call the big blind instead of raising preflop.
+Live cards – In stud, cards not yet seen that can improve one’s hand; also, cards that are not dead.
+Muck – The discard pile; also, to fold or throw away cards face-down.
+Nuts – The best possible hand given the board.
+Odds – The probability of completing a drawing hand, or the ratio of risk to reward.
+Offsuit – Cards of different suits (e.g., A♣ K♥).
+Open – To make the first bet in a round.
+Outs – Remaining cards that can improve a player’s hand to a likely winner.
+Overcard – A hole card higher than any community card.
+Pair – Two cards of the same rank.
+Pocket – A player’s two hole cards in Hold’em/Omaha (e.g., pocket aces).
+Position – A player’s order relative to the dealer button (early, middle, late).
+Pot – The total chips bet in a hand.
+Pot odds – The ratio of the current pot size to the cost of a contemplated call.
+Preflop – Betting round before any community cards are dealt.
+Push – To shove all-in; also, to slide chips into the pot.
+Quads – Four of a kind.
+Raise – To increase the current bet amount.
+Rake – The house’s commission from each cash game pot.
+Rank – The value of a card (Ace, King, Queen, Jack, 10, 9, …, 2).
+Riffle – A common shuffling method that interlaces two halves of the deck.
+River – The fifth and final community card; also the last betting round.
+Rock – A very tight player who rarely plays hands.
+Royal flush – A♥ K♥ Q♥ J♥ 10♥ (ace-high straight flush).
+Runner-runner – Making a hand by hitting needed cards on both the turn and river.
+Set – Three of a kind when you hold a pocket pair.
+Shuffle – To randomize the order of cards in the deck.
+Showdown – All remaining players reveal their hole cards to determine the winner.
+Side pot – A separate pot created when one or more players are all-in.
+Slow play – To check or call with a strong hand to trap opponents.
+Small blind – The smaller forced bet posted by the player immediately left of the dealer button.
+Smooth call – Call
