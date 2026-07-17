@@ -1,0 +1,38 @@
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 600;
+  font-display: swap;
+  src: url('/src/assets/fonts/Montserrat-SemiBold.woff2') format('woff2'),
+       url('/src/assets/fonts/Montserrat-SemiBold.woff') format('woff');
+}
+
+@font-face {
+  font-family: "Noto Emoji";
+  font-weight: 600;
+  font-display: swap;
+  src: url('/src/assets/fonts/NotoEmoji-SemiBold.woff2') format('woff2'),
+       url('/src/assets/fonts/NotoEmoji-SemiBold.woff') format('woff');
+}
+
+playing-card {
+  /* card sizing */
+  --card-width: 200px; /* or 10vw (responsive) */
+  --card-height: calc(var(--card-width) * 1.4);
+  /* field area (where suit symbols go) */
+  --card-field-width: var(--card-width);
+  --card-field-height: calc(var(--card-width) * 0.8);
+
+  /* typography */
+  --card-font-size: calc(var(--card-width) * 0.5);
+  --card-rank-font-size: calc(var(--card-font-size) / 2);
+
+  /* colors */
+  --card-bg: white;
+  --card-color-red: red;
+  --card-color-black: black;
+  --card-border-color: gray;
+
+
+  font-family: 'Montserrat', 'Noto Emoji', sans-serif;
+  font-weight: 600;
+}

@@ -4,14 +4,16 @@
 }
 
 body {
+  margin: 0;
   background: green;
   color: #fff;
+
 }
 
 /* LAYOUT: used to place the game buttons and statistics */
 .top-section {
   border: 1px solid orange;
-  margin: 1rem 0;
+  margin: 0 0 1rem;
 }
 
 /* The entire game board */
