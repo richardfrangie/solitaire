@@ -19,7 +19,7 @@ class PlayingCard extends HTMLElement {
     width: var(--card-width);
     height: var(--card-height);
     background: var(--card-bg);
-    border-radius: 5%;
+    border-radius: 8%;
     color: var(--card-color-red);
     margin: 1rem;
     border: 1px solid var(--card-border-color);
@@ -155,9 +155,14 @@ class PlayingCard extends HTMLElement {
     :host([rank="10"]) .symbol:last-child {top: 25%;}
 
     :host([flipped]) {
-    background:
-    repeating-linear-gradient(45deg, var(--card-color-red),
-    var(--card-color-black) 10%);
+    border: 1px solid var(--card-border-color);
+    background: #1a3a8a;
+    background-image: repeating-linear-gradient(45deg,
+      transparent 0px, transparent 20px,
+      rgba(255, 255, 255, 0.08) 20px, rgba(255, 255, 255, 0.08) 21px),
+      repeating-linear-gradient(-45deg,
+      transparent 0px, transparent 20px,
+      rgba(255, 255, 255, 0.08) 20px, rgba(255, 255, 255, 0.08) 21px );
 
     & .container {
     visibility: hidden;

@@ -1,6 +1,8 @@
 :root {
-  --card-width: 13vw;
+  --card-width: 12vw;
   --card-aspect-ratio: 5 / 7;
+
+  --card-stack-gap: calc(var(--card-width) / 3.4);
 }
 
 body {
@@ -10,7 +12,9 @@ body {
 
 }
 
-/* LAYOUT: used to place the game buttons and statistics */
+/* LAYOUT */
+
+/* Place the game buttons and statistics *\/ */
 .top-section {
   border: 1px solid orange;
   margin: 0 0 1rem;
@@ -20,8 +24,6 @@ body {
 .board {
   border: 1px solid orange;
   background: rgb(0 0 255 / 0.5);
-  max-width: 1280px;
-  margin: auto;
 }
 
 /* The sections of the game board */
@@ -31,19 +33,13 @@ body {
   gap: 0.7rem;
 }
 
-@media screen and (width  <= 600px) {
-  .top-board, .tableau {
-    gap: 0.2rem;
-  }
-}
-
-/* remove later */
-.tableau {background: rgb(255 255 255 / 0.5);}
-
 .top-board {
   margin-bottom: 10px;
   background: rgb(255 255 0 / 0.5);
 }
+
+/* ******* remove later ********** */
+.tableau {background: rgb(255 255 255 / 0.5);}
 
 /* Individual container for each card */
 :is(.top-board, .tableau) > div {
@@ -54,3 +50,52 @@ body {
 }
 
 .empty {visibility: hidden;}
+
+/* Media queries */
+@media screen and (width  <= 600px) {
+  .top-board, .tableau {
+    gap: 0.2rem;
+  }
+}
+
+@media screen and (width  >= 1280px) {
+  :root {
+    --card-width: 153.6px;
+  }
+
+  .board {
+    max-width: 1280px;
+    margin: auto;
+  }
+}
+
+/* CARDS */
+
+/* Place the cards into the available slots on the game board */
+.top-board playing-card {
+  position: absolute;
+  margin: 0;
+}
+
+.tableau {
+  position: relative;
+}
+.tableau playing-card {
+  position: absolute;
+  margin: 0;
+}
+
+.first {
+  position: relative;
+  top: calc(var(--card-stack-gap) * 0.5);
+}
+
+.another {
+  position: relative;
+  top: var(--card-stack-gap);
+}
+
+.another2 {
+  position: relative;
+  top: calc(var(--card-stack-gap) * 2);
+}

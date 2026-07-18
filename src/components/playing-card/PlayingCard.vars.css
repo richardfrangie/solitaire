@@ -16,7 +16,7 @@
 
 playing-card {
   /* card sizing */
-  --card-width: 200px; /* or 10vw (responsive) */
+  /* --card-width: 200px; /\* or 10vw (responsive) *\/ */
   --card-height: calc(var(--card-width) * 1.4);
   /* field area (where suit symbols go) */
   --card-field-width: var(--card-width);
