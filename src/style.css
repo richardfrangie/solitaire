@@ -2,12 +2,12 @@
   --card-width: 12vw;
   --card-aspect-ratio: 5 / 7;
 
-  --card-stack-gap: calc(var(--card-width) / 3.4);
+  --card-stack-gap: calc(var(--card-width) / 7);
 }
 
 body {
   margin: 0;
-  background: green;
+  background: #1c401d;
   color: #fff;
 
 }
@@ -16,14 +16,15 @@ body {
 
 /* Place the game buttons and statistics *\/ */
 .top-section {
-  border: 1px solid orange;
+  /* border: 1px solid #d8ac22; */
   margin: 0 0 1rem;
 }
 
 /* The entire game board */
 .board {
-  border: 1px solid orange;
-  background: rgb(0 0 255 / 0.5);
+  /* border: 1px solid red; */
+  /* background: rgb(0 0 255 / 0.5); */
+  margin: 0 1rem;
 }
 
 /* The sections of the game board */
@@ -35,21 +36,43 @@ body {
 
 .top-board {
   margin-bottom: 10px;
-  background: rgb(255 255 0 / 0.5);
+  /* background: rgb(255 255 0 / 0.5); */
 }
 
 /* ******* remove later ********** */
-.tableau {background: rgb(255 255 255 / 0.5);}
+/* .tableau {background: rgb(255 255 255 / 0.5);} */
 
-/* Individual container for each card */
+/* Individual slots for each card */
 :is(.top-board, .tableau) > div {
   width: var(--card-width);
   aspect-ratio: var(--card-aspect-ratio);
-  border: 1px solid pink;
-  background: rgb(255 0 255 / 0.5);
+  border: 1px solid #304c33;
+  border-radius: 8%;
+  background-color: #304c33;
 }
 
 .empty {visibility: hidden;}
+
+/* Set the symbol on the background of the Foundations cards */
+.heart {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' text-anchor='middle' dominant-baseline='central' font-size='60' fill='%231c401d'%3E♥%3C/text%3E%3C/svg%3E") no-repeat center;
+}
+
+.spade {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' text-anchor='middle' dominant-baseline='central' font-size='60' fill='%231c401d'%3E♠%3C/text%3E%3C/svg%3E") no-repeat center;
+}
+
+.diamond {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' text-anchor='middle' dominant-baseline='central' font-size='60' fill='%231c401d'%3E♦%3C/text%3E%3C/svg%3E") no-repeat center;
+}
+
+.club {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' text-anchor='middle' dominant-baseline='central' font-size='60' fill='%231c401d'%3E♣%3C/text%3E%3C/svg%3E") no-repeat center;
+}
+
+.stock {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' text-anchor='middle' dominant-baseline='central' font-size='60' fill='%231c401d'%3E↻%3C/text%3E%3C/svg%3E") no-repeat center;
+}
 
 /* Media queries */
 @media screen and (width  <= 600px) {
@@ -72,30 +95,11 @@ body {
 /* CARDS */
 
 /* Place the cards into the available slots on the game board */
-.top-board playing-card {
+playing-card {
   position: absolute;
   margin: 0;
 }
 
 .tableau {
   position: relative;
-}
-.tableau playing-card {
-  position: absolute;
-  margin: 0;
-}
-
-.first {
-  position: relative;
-  top: calc(var(--card-stack-gap) * 0.5);
-}
-
-.another {
-  position: relative;
-  top: var(--card-stack-gap);
-}
-
-.another2 {
-  position: relative;
-  top: calc(var(--card-stack-gap) * 2);
 }
