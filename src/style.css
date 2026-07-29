@@ -1,29 +1,30 @@
 :root {
-  --card-width: 12vw;
+  --card-width: 11vw;
   --card-aspect-ratio: 5 / 7;
 
   --card-stack-gap: calc(var(--card-width) / 7);
+  --card-stack-left-side: calc(var(--card-width) / 14);
 }
 
 body {
   margin: 0;
   background: #1c401d;
   color: #fff;
-
 }
 
 /* LAYOUT */
 
-/* Place the game buttons and statistics *\/ */
+/* Place the game buttons */
 .top-section {
-  /* border: 1px solid #d8ac22; */
+  border: 1px solid #d8ac22;
   margin: 0 0 1rem;
 }
 
-/* The entire game board */
+/* BOARD */
+
 .board {
-  /* border: 1px solid red; */
-  /* background: rgb(0 0 255 / 0.5); */
+  border: 1px solid red;
+  background: rgb(0 0 255 / 0.5);
   margin: 0 1rem;
 }
 
@@ -36,11 +37,11 @@ body {
 
 .top-board {
   margin-bottom: 10px;
-  /* background: rgb(255 255 0 / 0.5); */
+  background: rgb(255 255 0 / 0.5);
 }
 
 /* ******* remove later ********** */
-/* .tableau {background: rgb(255 255 255 / 0.5);} */
+.tableau {background: rgb(255 255 255 / 0.5);}
 
 /* Individual slots for each card */
 :is(.top-board, .tableau) > div {
@@ -102,4 +103,28 @@ playing-card {
 
 .tableau {
   position: relative;
+}
+
+.selected {
+  transform: translateY(calc(var(--card-stack-gap)));
+  filter: brightness(1.1) drop-shadow(0 0 10px rgba(74, 144, 226, 0.1));
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+  border-inline: 3px solid rgba(76, 175, 80, 1);
+  z-index: 100;
+}
+
+.selected-top {
+  border-top: 3px solid rgba(76, 175, 80, 1);
+}
+
+.selected-bottom {
+  border-bottom: 3px solid rgba(76, 175, 80, 1);
+}
+
+.selected-only {
+  transform: translateY(calc(var(--card-stack-gap) * 2));
+  filter: brightness(1.1) drop-shadow(0 0 10px rgba(74, 144, 226, 0.1));
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+  border: 3px solid rgba(76, 175, 80, 1);
+  z-index: 100;
 }
