@@ -73,6 +73,11 @@ function deal() {
 
 // Draw card or redeal
 function draw() {
+
+  // Handles the 'undo' function
+  const stockClone = Array.from(stock.cloneNode(true).children);
+  const wasteClone = Array.from(waste.cloneNode(true).children);
+
   if (!game.isSelectionActive()) {
     const cards = stock.children;
     if (cards.length > 0) drawCard();
@@ -85,6 +90,8 @@ function draw() {
     const lastCard = cards[cards.length - 1];
     lastCard.toggleAttribute('flipped');
     waste.appendChild(cards.pop());
+
+    game.storePiles(stock, stockClone, waste, wasteClone);
   }
 
   function redeal() {
@@ -93,6 +100,8 @@ function draw() {
       cards[i].toggleAttribute('flipped');
       stock.appendChild(cards[i]);
     }
+
+    game.storePiles(waste, wasteClone, stock, stockClone);
   }
 }
 
@@ -160,9 +169,8 @@ const game = {
   // Implicit State: null implies "Not Selected", Object implies "Selected"
   hasSelection: null,
 
-
-  selectedCards(pile, clickedCard, startIndex, cards) {
-    this.hasSelection = { pile, clickedCard, startIndex, cards};
+  selectedCards(pile, clickedCard, startIndex, cardsSelected, cards) {
+    this.hasSelection = { pile, clickedCard, startIndex, cardsSelected, cards};
   },
 
   clearSelection() {
@@ -171,6 +179,29 @@ const game = {
 
   isSelectionActive() {
     return this.hasSelection !== null;
+  },
+
+  // Undo
+  history: [],
+
+  // Store the last two columns that changed so they can be
+  // redone later using the undo function
+  storePiles(movingPile, movingCards, targetPile, targetCards) {
+    // A maximum of three "undo" actions
+    if (this.history.length == 3) this.history.shift();
+    this.history.push({movingPile, movingCards, targetPile, targetCards});
+  },
+
+  // Takes the last 2 columns that were changed and restores them
+  undo(){
+    const last = game.history.pop();
+
+    clearPiles(last.movingPile, last.targetPile);
+    // Recreate the piles
+    last.targetCards.map(card => last.targetPile.appendChild(card));
+    last.movingCards.map(card => last.movingPile.appendChild(card));
+
+    arrangePiles(last.movingPile, last.targetPile);
   }
 }
 
@@ -183,6 +214,9 @@ function selectCardsFrom(card) {
   const cards = Array.from(card.parentNode.children);
   const startIndex = cards.indexOf(card);
   const cardsSelected = [];
+
+  // Copy the original cards that will be transferred to the 'game' object
+  const cardsCopy = card.parentNode.cloneNode(true);
 
   // Check if card is in the top board (single card area)
   if (isCardOnTop) {
@@ -197,8 +231,9 @@ function selectCardsFrom(card) {
       cardsSelected.push(cards[i]);
     }
   }
+
   // Store the selection
-  game.selectedCards(card.parentNode, card, startIndex, cardsSelected);
+  game.selectedCards(card.parentNode, card, startIndex, cards, cardsCopy);
 }
 
 function deselectCards() {
@@ -236,15 +271,16 @@ function moveCardsSelectedTo(pile) {
 
 function canMoveSelectedTo(target) {
   const isCardClicked = target.matches('playing-card');
-  const isFoundationClicked = target.classList.contains('foundation');
+  const isFoundationClicked = target.closest('.foundation');
+  const isTableauClicked = target.closest('.tableau');
   const comparisonCard = game.hasSelection.clickedCard;
 
   if (isFoundationClicked)
     return isCardClicked ? haveSameSuit(comparisonCard, target) &&
       isOneRankAbove(comparisonCard, target) :
+      // If the card is not clicked, it clicked on an empty pile
       isAce(comparisonCard) && matchesPileSuit(comparisonCard, target);
-    // If the card is not clicked, it clicked on an empty pile
-  else
+  else if (isTableauClicked)
     return isCardClicked ? haveDifferentColors(comparisonCard, target) &&
       isOneRankBelow(comparisonCard, target) :
       isKing(comparisonCard);
@@ -253,9 +289,17 @@ function canMoveSelectedTo(target) {
 function moveSelectedTo(target) {
   const isCardClicked = target.matches('playing-card');
   const targetPile = isCardClicked ? target.parentNode : target;
+  const movingPile = game.hasSelection.pile;
 
-  if (canMoveSelectedTo(target))
-    return moveCardsSelectedTo(targetPile);
+  const movingCards = Array.from(game.hasSelection.cards.children);
+  const targetCards = Array.from(targetPile.children);
+
+  if (canMoveSelectedTo(target)) {
+    game.storePiles(movingPile, movingCards, targetPile, targetCards);
+    moveCardsSelectedTo(targetPile);
+    if(isGameWon()) return console.log('You WON');
+  }
+  else deselectCards();
 }
 
 function isSuit(card, suit) {
@@ -274,11 +318,11 @@ function haveSameSuit(card1, card2) {
   return card1.getAttribute('suit') == card2.getAttribute('suit');
 }
 
-// To use in tableau pile
-function isOneRankBelow(moving, target) {
+// To use in foundation pile
+function isOneRankAbove(moving, target) {
   const movingRank = +moving.getAttribute('rank');
   const targetRank = +target.getAttribute('rank');
-  return targetRank == movingRank + 1;
+  return targetRank == movingRank - 1;
 }
 
 function isAce(card) {
@@ -289,17 +333,23 @@ function matchesPileSuit(card, pile) {
   return pile.classList.contains(card.getAttribute('suit'));
 }
 
-// To use in foundation pile
-function isOneRankAbove(moving, target) {
+// To use in tableau pile
+function isOneRankBelow(moving, target) {
   const movingRank = +moving.getAttribute('rank');
   const targetRank = +target.getAttribute('rank');
-  return targetRank == movingRank - 1;
+  return targetRank == movingRank + 1;
 }
 
 function isKing(card) {
   return card.getAttribute('rank') == 13;
 }
 
+function isGameWon() {
+  return foundations[0].children.length == 13 &&
+    foundations[1].children.length == 13 &&
+    foundations[2].children.length == 13 &&
+    foundations[3].children.length == 13;
+}
 
 // HANDLER
 
@@ -337,6 +387,9 @@ tableau.addEventListener('click', handleCardsClick);
 
 // Buttons
 newGame.addEventListener('click', restartGame);
+undo.addEventListener('click', event => {
+  if (!game.isSelectionActive() && game.history.length > 0) game.undo();
+});
 
 // Draw
 stock.addEventListener('click', draw);
