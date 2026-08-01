@@ -1,9 +1,11 @@
 import "./components/playing-card/PlayingCard.js";
 
 
-// SELECT ELEMENTS
+// ==================================================
+// DOM SELECTORS
+// ==================================================
 
-// Select piles and containels
+// Select piles and containers
 const topBoard = document.querySelector('.top-board');
 
 const stock = document.querySelector('.stock');
@@ -20,9 +22,26 @@ const tableau = document.querySelector('.tableau');
 // Select buttons
 const newGame = document.querySelector('.new-game');
 const undo = document.querySelector('.undo');
+const victoryBtn = document.querySelector('.victory-btn');
+
+// Game stats
+const moveCounter = document.querySelector('.move-counter');
+const timeDisplay = document.querySelector('.time-display');
+
+// Misc
+const victoryPopup = document.querySelector('.victory-popup');
+
+// Special element: this element creates a sort of layer that sits
+// between all the elements on the board and the victory pop-up
+// window. Its purpose is to prevent a card or other element from
+// being clicked while the popup window is active, and when it
+// is clicked outside of it, the popup window closes.
+const hiddenLayer = document.querySelector('.hidden-layer');
 
 
+// ==================================================
 // CARD GENERATION
+// ==================================================
 
 function createCard(suit, rank, flip) {
   const card = document.createElement('playing-card');
@@ -54,7 +73,9 @@ function shuffle(cards) {
 }
 
 
+// ==================================================
 // DEAL
+// ==================================================
 
 // Deal the cards on the board
 function deal() {
@@ -106,19 +127,25 @@ function draw() {
 }
 
 
+// ==================================================
 // ARRANGE
+// ==================================================
 
 // Adjust the spacing between cards throughout the entire pile
 function arrangePile(pile) {
   const cards = Array.from(pile.children);
-  if (pile.closest('.top-board')) cards.map(card => card.style.top = '');
-  else {
-    // Once a fae-up card is found, the --card-stack-gap is doubled
-    let j = 0;
-    for (let i = 0; i < cards.length; i++) {
-      cards[i].style.top = `calc(var(--card-stack-gap) * ${i + j})`;
-      if (!cards[i].hasAttribute("flipped")) j++;
-    }
+
+  if (pile.closest('.top-board')) {
+    cards.forEach(card => card.style.top = '');
+    return ;
+  }
+
+  // Tableau logic
+  // Once a fae-up card is found, the --card-stack-gap is doubled
+  let j = 0;
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].style.top = `calc(var(--card-stack-gap) * ${i + j})`;
+    if (!cards[i].hasAttribute("flipped")) j++;
   }
 }
 
@@ -145,21 +172,17 @@ function clearBoard() {
 }
 
 
-// START RESET
-
+// Start game
 function setupBoard() {
   deal();
   arrangePiles(...tableau.children);
 }
 
-function restartGame() {
-  clearBoard();
-  setupBoard();
-  if (game.isSelectionActive()) game.clearSelection();
-}
 
 
-// BEHAVIOR
+// ==================================================
+// GAME STATE
+// ==================================================
 
 // The game uses a click-based interaction model with two phases:
 // Idle: Click a face-up card to select it
@@ -183,30 +206,52 @@ const game = {
 
   // Undo
   history: [],
+  MAX_UNDO_HISTORY: 3,
+
+  clearHistory() {
+    this.history = [];
+  },
 
   // Store the last two columns that changed so they can be
   // redone later using the undo function
   storePiles(movingPile, movingCards, targetPile, targetCards) {
     // A maximum of three "undo" actions
-    if (this.history.length == 3) this.history.shift();
+    if (this.history.length >= this.MAX_UNDO_HISTORY) this.history.shift();
     this.history.push({movingPile, movingCards, targetPile, targetCards});
   },
 
   // Takes the last 2 columns that were changed and restores them
   undo(){
-    const last = game.history.pop();
+    if (!game.isSelectionActive() && game.history.length > 0) {
+      const last = game.history.pop();
 
-    clearPiles(last.movingPile, last.targetPile);
-    // Recreate the piles
-    last.targetCards.map(card => last.targetPile.appendChild(card));
-    last.movingCards.map(card => last.movingPile.appendChild(card));
+      clearPiles(last.movingPile, last.targetPile);
+      // Recreate the piles
+      last.targetCards.map(card => last.targetPile.appendChild(card));
+      last.movingCards.map(card => last.movingPile.appendChild(card));
 
-    arrangePiles(last.movingPile, last.targetPile);
+      arrangePiles(last.movingPile, last.targetPile);
+      incrementMoves();
+    }
+  },
+
+  // Game stats
+  seconds: 0,
+  moves: 0,
+  timerId: null,
+
+  clearStats() {
+    this.seconds = 0;
+    this.moves = 0;
+    timeDisplay.textContent = '00:00';
+    moveCounter.textContent = '0';
   }
 }
 
 
-// SELECTION
+// ==================================================
+// SELECTION LOGIC
+// ==================================================
 
 // Select the cards starting from the indicated card upward.
 function selectCardsFrom(card) {
@@ -247,8 +292,11 @@ function isCardInSelection(card) {
 }
 
 
-// MOVEMENTS
+// ==================================================
+// MOVEMENT LOGIC
+// ==================================================
 
+// Move the selected cards to the pile
 function moveCardsSelectedTo(pile) {
   const originCards = Array.from(game.hasSelection.pile.children);
   const selectionStart = game.hasSelection.startIndex;
@@ -286,6 +334,7 @@ function canMoveSelectedTo(target) {
       isKing(comparisonCard);
 }
 
+//Move the selected cards to the target (where they were clicked)
 function moveSelectedTo(target) {
   const isCardClicked = target.matches('playing-card');
   const targetPile = isCardClicked ? target.parentNode : target;
@@ -297,10 +346,16 @@ function moveSelectedTo(target) {
   if (canMoveSelectedTo(target)) {
     game.storePiles(movingPile, movingCards, targetPile, targetCards);
     moveCardsSelectedTo(targetPile);
-    if(isGameWon()) return console.log('You WON');
+    incrementMoves();
+    if(isGameWon()) toggleVictoryPopup();
   }
   else deselectCards();
 }
+
+
+// ==================================================
+// CARD CHECKERS
+// ==================================================
 
 function isSuit(card, suit) {
   return card.getAttribute('suit') === suit;
@@ -344,12 +399,83 @@ function isKing(card) {
   return card.getAttribute('rank') == 13;
 }
 
+// Handles the game's victory
 function isGameWon() {
   return foundations[0].children.length == 13 &&
     foundations[1].children.length == 13 &&
     foundations[2].children.length == 13 &&
     foundations[3].children.length == 13;
 }
+
+function restartGame() {
+  if (game.isSelectionActive()) deselectCards();
+  game.clearSelection();
+  game.clearHistory();
+  clearBoard();
+  setupBoard();
+  if (game.timerId) stopTimer();
+  game.clearStats();
+  startTimer();
+}
+
+
+// POP-UP
+
+function popupNewGame() {
+  toggleVictoryPopup();
+  restartGame();
+}
+
+let isVictoryShown = false;
+
+function toggleVictoryPopup() {
+  isVictoryShown = !isVictoryShown;
+
+  if (game.timerId) stopTimer();
+
+  victoryPopup.style.display = isVictoryShown ? 'flex' : 'none';
+  hiddenLayer.style.display = isVictoryShown ? 'block' : 'none';
+}
+
+
+// ==================================================
+// GAME STATS
+// ==================================================
+
+function secondsToTimestamp(seconds) {
+  const secs = seconds % 60;
+  let mins = Math.floor(seconds / 60);
+
+  if (mins >= 60) mins = Math.floor(mins % 60);
+
+  function format(num) {
+    return num.toString().padStart(2, '0');
+  }
+
+  return `${format(mins)}:${format(secs)}`;
+}
+
+function startTimer() {
+  // Prevent multiple intervals
+  if (game.timerId) return;
+
+  game.timerId = setInterval(() => {
+    timeDisplay.textContent = secondsToTimestamp(++game.seconds);
+  }, 1000);
+
+  return game.timerId;
+}
+
+function stopTimer() {
+  clearInterval(game.timerId);
+  game.timerId = null;
+  game.seconds = 0;
+}
+
+function incrementMoves() {
+  moveCounter.textContent = ++game.moves;
+}
+
 
 // HANDLER
 
@@ -387,9 +513,9 @@ tableau.addEventListener('click', handleCardsClick);
 
 // Buttons
 newGame.addEventListener('click', restartGame);
-undo.addEventListener('click', event => {
-  if (!game.isSelectionActive() && game.history.length > 0) game.undo();
-});
+undo.addEventListener('click', game.undo);
+victoryBtn.addEventListener('click', popupNewGame);
+hiddenLayer.addEventListener('click', toggleVictoryPopup);
 
 // Draw
 stock.addEventListener('click', draw);
@@ -398,6 +524,7 @@ stock.addEventListener('click', draw);
 // NEW GAME
 
 setupBoard();
+startTimer();
 
 
 // DEBUG

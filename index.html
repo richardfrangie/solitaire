@@ -9,17 +9,23 @@
   </head>
   <body>
 
-    <div class="top-section">
-      <button class="new-game">New Game</button>
-      <button class="undo">Undo</button>
-    </div>
+    <header class="top-section">
+      <button class="new-game" aria-label="Start a new game">New Game</button>
+      <button class="undo" aria-label="Undo the last move">Undo</button>
+      <div class="game-stats">
+        <span class="move-counter">0</span>
+        <span class="time-display">00:00</span>
+      </div>
+    </header>
 
-    <div class="board">
+    <main class="board" role="main">
 
       <div class="top-board">
         <div class="stock"></div>
         <div class="waste"></div>
+        <!-- This maintains empty space without having to use CSS. -->
         <div class="empty"></div>
+        <!-- Not wrapped in a container to simplify flex alignment. -->
         <div class="foundation heart"></div>
         <div class="foundation spade"></div>
         <div class="foundation diamond"></div>
@@ -36,6 +42,13 @@
         <div></div>
       </div>
 
+    </main>
+
+    <div class="hidden-layer"></div>
+
+    <div class="victory-popup" role="dialog" >
+      <h2>🎉 You Won!</h2>
+      <button class="victory-btn" aria-label="Start new game">New Game</button>
     </div>
 
   </body>

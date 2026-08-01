@@ -1,10 +1,18 @@
+/* ==================================================
+   VARIABLES
+   ================================================== */
+
 :root {
   --card-width: 11vw;
   --card-aspect-ratio: 5 / 7;
-
   --card-stack-gap: calc(var(--card-width) / 7);
   --card-stack-left-side: calc(var(--card-width) / 14);
 }
+
+
+/* ==================================================
+   RESET & BASE
+   ================================================== */
 
 body {
   margin: 0;
@@ -12,20 +20,21 @@ body {
   color: #fff;
 }
 
-/* LAYOUT */
+
+/* ==================================================
+   LAYOUT
+   ================================================== */
 
 /* Place the game buttons */
 .top-section {
+  display: flex;
   margin: 0 1rem 1rem;
 }
-
-/* BOARD */
 
 .board {
   margin: 0 1rem;
 }
 
-/* The sections of the game board */
 .top-board, .tableau {
   display: flex;
   justify-content: space-between;
@@ -36,6 +45,11 @@ body {
   margin-bottom: 10px;
 }
 
+
+/* ==================================================
+   CARD SLOTS
+   ================================================== */
+
 /* Individual slots for each card */
 :is(.top-board, .tableau) > div {
   width: var(--card-width);
@@ -43,17 +57,160 @@ body {
   border: 1px solid #304c33;
   border-radius: 8%;
   background-color: #304c33;
+
+  /* CAUTION: remove if it causes problems on small screens */
+  /* Stops Flexbox from squishing the slots on tiny viewports */
+  flex-shrink: 0;
 }
 
 .empty {visibility: hidden;}
 
 
-/* Media queries */
-@media screen and (width  <= 600px) {
-  .top-board, .tableau {
-    gap: 0.2rem;
-  }
+/* ==================================================
+   CARDS STACKS
+   ================================================== */
+
+/* Place the cards into the available slots on the game board */
+playing-card {
+  position: absolute;
+  margin: 0;
 }
+
+playing-card:hover {
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.5);
+}
+
+.tableau {
+  position: relative;
+}
+
+
+/* ==================================================
+   CARD STATES
+   ================================================== */
+
+.selected {
+  transform: translateY(calc(var(--card-stack-gap)));
+  filter: brightness(1.1) drop-shadow(0 0 10px rgb(74 144 226 / 0.1));
+  box-shadow: 0 15px 40px rgb(0 0 0 / 0.3);
+  border-inline: 3px solid rgb(76 175 80 / 0.9);
+  z-index: 60;
+}
+
+.selected-top {
+  border-top: 3px solid rgb(76 175 80 / 0.9);
+}
+
+.selected-bottom {
+  border-bottom: 3px solid rgb(76 175 80 / 0.9);
+}
+
+.selected-only {
+  transform: translateY(calc(var(--card-stack-gap) * 2));
+  filter: brightness(1.1) drop-shadow(0 0 10px rgb(74  144  226 / 0.1));
+  box-shadow: 0 15px 40px rgb(0 0 0 / 0.3);
+  border: 3px solid rgb(76 175 80 / 0.9);
+  z-index: 60;
+}
+
+
+/* ==================================================
+   BUTTONS
+   ================================================== */
+
+button {
+  font-family: system-ui, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  margin: 0.1rem;
+  padding: 0.3rem 0.8rem;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: #bfbfbfff;
+  border-radius: 5%;
+  border: 0.1rem solid gray;
+  background-image:
+    linear-gradient(45deg, #1a3a8a 0%, #3d579b  51%, #1a3a8a  100%);
+  user-select: none;
+  touch-action: manipulation;
+}
+
+button:hover {
+  color: #fff;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+
+/* ==================================================
+   POPUP
+   ================================================== */
+
+.victory-popup {
+  width: calc(var(--card-width) * 5);
+  height: calc(var(--card-width) * 2);
+  font-size: calc(var(--card-width) * 0.4);
+  text-align: center;
+  text-transform: uppercase;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #bfbfbfff;
+  border-radius: 10px;
+  border: 0.1rem solid gray;
+  box-shadow: 0 0 14px -7px #f09819;
+  background-image:
+    linear-gradient(45deg, #1a3a8a 0%, #3d579b  51%, #1a3a8a  100%);
+  z-index: 1000;
+  user-select: none;
+}
+
+h2 {
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.hidden-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgb(0 0 0 / 0.25);
+  display: none;
+}
+
+
+/* ==================================================
+   GAME STATS
+   ================================================== */
+
+.game-stats {
+  font-family:  system-ui, -apple-system, Courier, Monaco, Arial, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+  letter-spacing: 0.1rem;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: 2rem;
+}
+
+.move-counter {
+  font-weight: 700;
+}
+
+
+/* ==================================================
+   RESPONSIVE
+   ================================================== */
 
 @media screen and (width  >= 769px) {
   :root {
@@ -66,73 +223,38 @@ body {
   }
 }
 
-/* CARDS */
-
-/* Place the cards into the available slots on the game board */
-playing-card {
-  position: absolute;
-  margin: 0;
+@media screen and (width  <= 600px) {
+  .top-board, .tableau {
+    gap: 0.2rem;
+  }
 }
 
-.tableau {
-  position: relative;
+@media (width <= 480px) {
+  button, .victory-popup {
+    font-size: 0.6rem;
+  }
 }
 
-.selected {
-  transform: translateY(calc(var(--card-stack-gap)));
-  filter: brightness(1.1) drop-shadow(0 0 10px rgba(74, 144, 226, 0.1));
-  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-  border-inline: 3px solid rgba(76, 175, 80, 1);
-  z-index: 10;
-}
+@media (width <= 350px) {
+  .victory-popup {
+    width: 175px;
+    height: 70px;
+    font-size: 0.7rem;
+  }
 
-.selected-top {
-  border-top: 3px solid rgba(76, 175, 80, 1);
-}
+  .game-stats {
+    gap: 1rem;
+  }
 
-.selected-bottom {
-  border-bottom: 3px solid rgba(76, 175, 80, 1);
-}
-
-.selected-only {
-  transform: translateY(calc(var(--card-stack-gap) * 2));
-  filter: brightness(1.1) drop-shadow(0 0 10px rgba(74, 144, 226, 0.1));
-  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-  border: 3px solid rgba(76, 175, 80, 1);
-  z-index: 10;
+  .time-display {
+    font-size: 0.7rem;
+  }
 }
 
 
-/* Buttons */
-button {
-  font-family: system-ui, Roboto, Helvetica, Arial, sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  margin: 0.1rem;
-  padding: 0.3rem 0.8rem;
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: #bfbfbfff;
-  border-radius: 5%;
-  border: 0.1rem solid gray;
-  box-shadow: 0px 0px 14px -7px #f09819;
-  background-image:
-    linear-gradient(45deg, #1a3a8a 0%, #3d579b  51%, #1a3a8a  100%);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-}
-
-button:hover {
-  color: #fff;
-}
-
-button:active {
-  transform: scale(0.95);
-}
-
+/* ==================================================
+   SUIT SYMBOLS
+   ================================================== */
 
 /* Set the symbol on the background of the Foundations cards */
 .heart {
