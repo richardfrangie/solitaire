@@ -2,16 +2,18 @@
   font-family: "Montserrat";
   font-weight: 600;
   font-display: swap;
-  src: url('/src/assets/fonts/Montserrat-SemiBold.woff2') format('woff2'),
-       url('/src/assets/fonts/Montserrat-SemiBold.woff') format('woff');
+  src:
+    url("/src/assets/fonts/Montserrat-SemiBold.woff2") format("woff2"),
+    url("/src/assets/fonts/Montserrat-SemiBold.woff") format("woff");
 }
 
 @font-face {
   font-family: "Noto Emoji";
   font-weight: 600;
   font-display: swap;
-  src: url('/src/assets/fonts/NotoEmoji-SemiBold.woff2') format('woff2'),
-       url('/src/assets/fonts/NotoEmoji-SemiBold.woff') format('woff');
+  src:
+    url("/src/assets/fonts/NotoEmoji-SemiBold.woff2") format("woff2"),
+    url("/src/assets/fonts/NotoEmoji-SemiBold.woff") format("woff");
 }
 
 playing-card {
@@ -32,7 +34,6 @@ playing-card {
   --card-color-black: black;
   --card-border-color: gray;
 
-
-  font-family: 'Montserrat', 'Noto Emoji', sans-serif;
+  font-family: "Montserrat", "Noto Emoji", sans-serif;
   font-weight: 600;
 }

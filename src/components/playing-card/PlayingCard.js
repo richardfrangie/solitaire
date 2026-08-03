@@ -1,8 +1,8 @@
-import './PlayingCard.vars.css';
+import "./PlayingCard.vars.css";
 
-import jackImg from '/src/assets/images/jack.png';
-import queenImg from '/src/assets/images/queen.png';
-import kingImg from '/src/assets/images/king.png';
+import jackImg from "/src/assets/images/jack.png";
+import queenImg from "/src/assets/images/queen.png";
+import kingImg from "/src/assets/images/king.png";
 
 class PlayingCard extends HTMLElement {
   constructor() {
@@ -11,7 +11,7 @@ class PlayingCard extends HTMLElement {
   }
 
   static get styles() {
-    return /* css */`
+    return /* css */ `
     :host {
     --card-field-clip-path: polygon(15% 0, 15% 100%, 85% 100%, 85% 0);
 
@@ -177,9 +177,9 @@ class PlayingCard extends HTMLElement {
   }
 
   static symbol(suit) {
-    const suitSymbol = {diamond: '♦', club: '♣', spade: '♠', heart: '♥'};
+    const suitSymbol = { diamond: "♦", club: "♣", spade: "♠", heart: "♥" };
     const normalizeSuit = suit?.toLowerCase();
-    return suitSymbol[normalizeSuit] ?? '♦';
+    return suitSymbol[normalizeSuit] ?? "♦";
   }
 
   static normalizeRank(value) {
@@ -189,44 +189,44 @@ class PlayingCard extends HTMLElement {
   }
 
   static getRankDisplay(rank) {
-    const display = {1: 'A', 11: 'J', 12: 'Q', 13: 'K'};
+    const display = { 1: "A", 11: "J", 12: "Q", 13: "K" };
     return display[rank] || rank.toString();
   }
 
   static get observedAttributes() {
-    return ['rank'];
+    return ["rank"];
   }
 
   populateContainer(container) {
     if (this.rank == 1) container.textContent = this.suit;
     if (this.rank >= 2 && this.rank <= 10) {
       for (let i = 0; i < this.rank; i++) {
-        const symbol = document.createElement('div');
-        symbol.className = 'symbol';
+        const symbol = document.createElement("div");
+        symbol.className = "symbol";
         container.appendChild(symbol);
       }
     }
   }
 
   createContainer() {
-    const container = document.createElement('div');
-    container.className = 'container';
+    const container = document.createElement("div");
+    container.className = "container";
     this.populateContainer(container);
     return container;
   }
 
   setSuit() {
-    const suitAttr = this.getAttribute('suit') || 'diamond';
-    this.setAttribute('suit', suitAttr);
+    const suitAttr = this.getAttribute("suit") || "diamond";
+    this.setAttribute("suit", suitAttr);
     this.suit = PlayingCard.symbol(suitAttr);
   }
 
   setRank() {
-    const rankAttr = this.getAttribute('rank');
+    const rankAttr = this.getAttribute("rank");
     this.rank = PlayingCard.normalizeRank(rankAttr);
-    this.setAttribute('rank', this.rank);
-    this.rankDisplay = PlayingCard.getRankDisplay(this.rank)
-    this.style.setProperty('--rank-suit',`"${this.rankDisplay}${this.suit}"`);
+    this.setAttribute("rank", this.rank);
+    this.rankDisplay = PlayingCard.getRankDisplay(this.rank);
+    this.style.setProperty("--rank-suit", `"${this.rankDisplay}${this.suit}"`);
   }
 
   connectedCallback() {
@@ -243,7 +243,7 @@ class PlayingCard extends HTMLElement {
   }
 
   render() {
-    this.shadowRoot.innerHTML = /* html */`
+    this.shadowRoot.innerHTML = /* html */ `
     <style>${PlayingCard.styles}</style>`;
     const container = this.createContainer();
     this.shadowRoot.appendChild(container);
