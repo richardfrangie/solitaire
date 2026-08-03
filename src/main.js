@@ -48,7 +48,7 @@ function createCard(suit, rank, flip) {
   card.setAttribute('suit', suit);
   card.setAttribute('rank', rank);
   if (flip) card.toggleAttribute('flipped');
-  return card
+  return card;
 }
 
 function createDeck() {
