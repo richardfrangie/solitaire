@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SOLITAIRE</title>
+    <script type="module" crossorigin src="/solitaire/assets/index-kDJWxQBv.js"></script>
+    <link rel="stylesheet" crossorigin href="/solitaire/assets/index-MNcZ8tNB.css">
+  </head>
+  <body>
+    <header class="top-section">
+      <button class="new-game" aria-label="Start a new game">New Game</button>
+      <button class="undo" aria-label="Undo the last move">Undo</button>
+      <div class="game-stats">
+        <span class="move-counter">0</span>
+        <span class="time-display">00:00</span>
+      </div>
+    </header>
+
+    <main class="board" role="main">
+      <div class="top-board">
+        <div class="stock"></div>
+        <div class="waste"></div>
+        <!-- This maintains empty space without having to use CSS. -->
+        <div class="empty"></div>
+        <!-- Not wrapped in a container to simplify flex alignment. -->
+        <div class="foundation heart"></div>
+        <div class="foundation spade"></div>
+        <div class="foundation diamond"></div>
+        <div class="foundation club"></div>
+      </div>
+
+      <div class="tableau">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </main>
+
+    <div class="hidden-layer"></div>
+
+    <div class="victory-popup" role="dialog">
+      <h2>🎉 You Won!</h2>
+      <button class="victory-btn" aria-label="Start new game">New Game</button>
+    </div>
+  </body>
+</html>
